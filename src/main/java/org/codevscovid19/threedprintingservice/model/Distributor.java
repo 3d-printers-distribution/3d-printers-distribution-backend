@@ -1,4 +1,7 @@
 package org.codevscovid19.threedprintingservice.model;
 
-public class Distributor extends User{
+import javax.persistence.Entity;
+
+@Entity
+public class Distributor extends User {
 }
