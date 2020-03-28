@@ -1,0 +1,18 @@
+version: '3'
+services:
+  threedprinting_backend:
+    build: .
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: password
+      FIREBASE_KEY_LOCATION: firebase-key
+    depends_on:
+      - database
+    ports:
+      - 8080:8080
+  database:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: password
+
