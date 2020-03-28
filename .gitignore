@@ -310,3 +310,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.gitignore.io/api/code,java,linux,macos,maven,windows,intellij,intellij+all,intellij+iml
+
+# Include gradle wrapper
+!gradle/wrapper/gradle-wrapper.jar
