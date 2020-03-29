@@ -12,6 +12,6 @@ public interface ProducerRepository extends UserRepository<Producer> {
 
     Optional<Producer> findByFirebaseId(@NotNull String firebaseId);
 
-    @Query(value = "SELECT * FROM Producer p WHERE ST_Distance_Sphere(ST_MakePoint(?1,?2), ST_MakePoint(p.latitude, p.longitude)) < ?3 ORDER BY ST_Distance_Sphere(ST_MakePoint(?1,?2), ST_MakePoint(p.latitude, p.longitude)) ASC", nativeQuery = true)
+    @Query(value = "SELECT * FROM Producer p WHERE ST_Distance_Sphere(ST_MakePoint(?1,?2), p.location) < ?3 ORDER BY ST_Distance_Sphere(ST_MakePoint(?1,?2), p.location) ASC", nativeQuery = true)
     List<Producer> findByLocationAndDistance(Float latitude, Float longitude, Float distance, Pageable pageable);
 }

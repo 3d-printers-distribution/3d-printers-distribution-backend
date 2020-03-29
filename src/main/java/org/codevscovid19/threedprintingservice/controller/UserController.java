@@ -1,6 +1,9 @@
 package org.codevscovid19.threedprintingservice.controller;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import org.codevscovid19.threedprintingservice.controller.request.model.GeoLocation;
 import org.codevscovid19.threedprintingservice.model.*;
 import org.codevscovid19.threedprintingservice.repositories.ConsumerRepository;
 import org.codevscovid19.threedprintingservice.repositories.DistributorRepository;
@@ -20,6 +23,7 @@ public class UserController {
     private ConsumerRepository consumerRepository;
     private DistributorRepository distributorRepository;
     private FirebaseTokenProvider firebaseTokenProvider;
+    private GeometryFactory geometryFactory;
 
     @Autowired
     public UserController(ProducerRepository producerRepository, ConsumerRepository consumerRepository, DistributorRepository distributorRepository, FirebaseTokenProvider firebaseTokenProvider) {
@@ -27,19 +31,20 @@ public class UserController {
         this.consumerRepository = consumerRepository;
         this.distributorRepository = distributorRepository;
         this.firebaseTokenProvider = firebaseTokenProvider;
+        this.geometryFactory = new GeometryFactory();
     }
 
     @PostMapping("/producer")
     public ResponseEntity<Producer> registerProducer(@RequestBody ProducerRegistrationRequest request) {
         String firebaseId = this.firebaseTokenProvider.getSessionPrincipal().getUid();
-        Producer producer = new Producer(firebaseId, request.name, request.contactInformation, request.location);
+        Producer producer = new Producer(firebaseId, request.name, request.contactInformation, geometryFactory.createPoint(new Coordinate(request.location.getLatitude(), request.location.getLongitude())));
         return ResponseEntity.ok(this.producerRepository.save(producer));
     }
 
     @PostMapping("/consumer")
     public ResponseEntity<Consumer> registerConsumer(@RequestBody ConsumerRegistrationRequest request) {
         String firebaseId = this.firebaseTokenProvider.getSessionPrincipal().getUid();
-        Consumer consumer = new Consumer(firebaseId, request.name, request.contactInformation, request.location, request.type);
+        Consumer consumer = new Consumer(firebaseId, request.name, request.contactInformation, geometryFactory.createPoint(new Coordinate(request.location.getLatitude(), request.location.getLongitude())), request.type);
         return ResponseEntity.ok(this.consumerRepository.save(consumer));
     }
 

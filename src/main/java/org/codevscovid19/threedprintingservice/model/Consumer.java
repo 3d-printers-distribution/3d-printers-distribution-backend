@@ -2,6 +2,8 @@ package org.codevscovid19.threedprintingservice.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.Point;
 
 import javax.persistence.*;
 import java.util.LinkedList;
@@ -17,14 +19,14 @@ public class Consumer extends User {
     @JsonProperty
     private ConsumerType type;
 
-    @Embedded
+    @Column
     @JsonProperty
-    private GeoLocation location;
+    private Geometry location;
 
     public Consumer() { // Hibernate constructor
     }
 
-    public Consumer(String id, String name, ContactInformation contactInformation, GeoLocation location, ConsumerType type) {
+    public Consumer(String id, String name, ContactInformation contactInformation, Point location, ConsumerType type) {
         super(id, name, contactInformation);
         this.location = location;
         this.type = type;

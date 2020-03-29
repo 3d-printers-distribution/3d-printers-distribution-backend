@@ -11,6 +11,6 @@ import java.util.Optional;
 public interface ConsumerRepository extends UserRepository<Consumer> {
     Optional<Consumer> findByFirebaseId(@NotNull String firebaseId);
 
-    @Query(value = "SELECT * FROM Consumer c WHERE ST_Distance_Sphere(ST_MakePoint(?1,?2), ST_MakePoint(c.latitude, c.longitude)) < ?3 ORDER BY ST_Distance_Sphere(ST_MakePoint(?1,?2), ST_MakePoint(c.latitude, c.longitude)) ASC", nativeQuery = true)
+    @Query(value = "SELECT * FROM Consumer c WHERE ST_Distance_Sphere(ST_MakePoint(?1,?2), c.location < ?3 ORDER BY ST_Distance_Sphere(ST_MakePoint(?1,?2), c.location) ASC", nativeQuery = true)
     List<Consumer> findByLocationAndDistance(Float latitude, Float longitude, Float distance, Pageable pageable);
 }
