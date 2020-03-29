@@ -1,7 +1,6 @@
 package org.codevscovid19.threedprintingservice.security;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,8 +14,8 @@ import org.springframework.security.web.access.ExceptionTranslationFilter;
 public class FirebaseAuthTokenSecurityConfig extends WebSecurityConfigurerAdapter {
     private final FirebasePreAuthenticationBearerTokenFilter tokenFilter;
 
-    public FirebaseAuthTokenSecurityConfig(FirebasePreAuthenticationBearerTokenFilter tokenFilter) {
-        this.tokenFilter = tokenFilter;
+    public FirebaseAuthTokenSecurityConfig() {
+        this.tokenFilter = new FirebasePreAuthenticationBearerTokenFilter();
     }
 
     @Override
@@ -24,18 +23,20 @@ public class FirebaseAuthTokenSecurityConfig extends WebSecurityConfigurerAdapte
         final ExceptionTranslationFilter invalidAuthFilter = new ExceptionTranslationFilter(new Http401UnauthorizedEntryPoint());
         invalidAuthFilter.setAccessDeniedHandler(new Http401UnauthorizedAccessDeniedHandler());
         httpSecurity
-                .antMatcher("/v1/**")
+                .antMatcher("/**")
                 .csrf()
                 .disable()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilter(this.tokenFilter)
-                .addFilterBefore(invalidAuthFilter, this.tokenFilter.getClass())
+                .antMatcher("/v1/**")
                 .authorizeRequests()
-                .anyRequest()
+                .antMatchers("/v1/**")
                 .authenticated()
                 .and()
+                .antMatcher("/v1/**")
+                .addFilter(this.tokenFilter)
+                .addFilterBefore(invalidAuthFilter, this.tokenFilter.getClass())
                 .exceptionHandling()
                 .accessDeniedHandler(new Http401UnauthorizedAccessDeniedHandler())
                 .authenticationEntryPoint(new Http401UnauthorizedEntryPoint());

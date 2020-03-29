@@ -1,19 +1,13 @@
 package org.codevscovid19.threedprintingservice.security;
 
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.auth.FirebaseToken;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
-@Component
 public class FirebasePreAuthenticationBearerTokenFilter extends AbstractPreAuthenticatedProcessingFilter {
 
     public static final String BEARER_HEADER_NAME = "Authorization";
