@@ -12,7 +12,6 @@ services:
     ports:
       - 8080:8080
   database:
-    image: postgres:latest
+    image: postgis/postgis:latest
     environment:
       POSTGRES_PASSWORD: password
-
