@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Entity
+@Table(indexes = @Index(columnList = "firebaseId"))
 public class Consumer extends User {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "consumer")
     @JsonManagedReference

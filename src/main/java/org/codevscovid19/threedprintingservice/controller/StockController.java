@@ -36,7 +36,7 @@ public class StockController {
     @PostMapping
     public void createStock(@RequestBody CreateAmountRequest createAmountRequest) throws ProductNotFoundException, ProducerNotFoundException {
         Product product = this.productRepository.findById(createAmountRequest.getProductId()).orElseThrow(ProductNotFoundException::new);
-        Producer producer = this.producerRepository.findByFirebaseId(firebaseTokenProvider.getSessionPrincipal().getUid()).orElseThrow(ProducerNotFoundException::new);
+        Producer producer = this.producerRepository.findByFirebaseId(this.firebaseTokenProvider.getSessionPrincipal().getUid()).orElseThrow(ProducerNotFoundException::new);
         Stock stock = new Stock(product, createAmountRequest.getAmount(), producer);
         this.stockRepository.save(stock);
     }

@@ -32,4 +32,12 @@ public abstract class Amount extends GeneratedIdentifiable {
         this.product = product;
         this.amount = amount;
     }
+
+    public Integer getAmount() {
+        return amount;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
 }
