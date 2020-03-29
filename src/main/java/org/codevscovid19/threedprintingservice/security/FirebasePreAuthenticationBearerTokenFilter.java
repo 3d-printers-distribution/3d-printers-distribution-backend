@@ -11,6 +11,7 @@ import java.util.Optional;
 public class FirebasePreAuthenticationBearerTokenFilter extends AbstractPreAuthenticatedProcessingFilter {
 
     public static final String BEARER_HEADER_NAME = "Authorization";
+    public static final String BEARER_PREFIX = "Bearer ";
 
     public FirebasePreAuthenticationBearerTokenFilter() {
         this.setAuthenticationManager(authentication -> {
@@ -20,7 +21,7 @@ public class FirebasePreAuthenticationBearerTokenFilter extends AbstractPreAuthe
     }
 
     private Optional<String> extractBearerToken(HttpServletRequest request) {
-        return Optional.ofNullable(request.getHeader(BEARER_HEADER_NAME)).map(bearer -> bearer.replaceFirst("Bearer: ", ""));
+        return Optional.ofNullable(request.getHeader(BEARER_HEADER_NAME)).map(bearer -> bearer.replaceFirst(BEARER_PREFIX, ""));
     }
 
     @Override
