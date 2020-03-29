@@ -1,3 +1,5 @@
+![Java CI with Gradle](https://github.com/3d-printers-distribution/3d-printers-distribution-backend/workflows/Java%20CI%20with%20Gradle/badge.svg)
+
 # Getting Started
 
 ### Reference Documentation
