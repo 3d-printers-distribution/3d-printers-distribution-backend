@@ -8,6 +8,7 @@ import org.codevscovid19.threedprintingservice.repositories.ConsumerRepository;
 import org.codevscovid19.threedprintingservice.repositories.DemandRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.ResponseEntity;
@@ -46,8 +47,9 @@ public class ConsumerController {
     }
 
     @GetMapping("/{consumerId}/demands")
-    public ResponseEntity<List<Demand>> getDemandsOfConsumer(@PathVariable UUID consumerId) throws ConsumerNotFoundException {
+    public ResponseEntity<List<Demand>> getDemandsOfConsumer(@PathVariable UUID consumerId,
+                                                             @PageableDefault(20) @SortDefault(value = "creationTime", direction = Sort.Direction.ASC) Pageable pageable) throws ConsumerNotFoundException {
         Consumer consumer = this.consumerRepository.findById(consumerId).orElseThrow(ConsumerNotFoundException::new);
-        return ResponseEntity.ok(this.demandRepository.findByConsumer(consumer));
+        return ResponseEntity.ok(this.demandRepository.findByConsumer(consumer, pageable));
     }
 }

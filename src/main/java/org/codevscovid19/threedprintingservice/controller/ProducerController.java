@@ -8,6 +8,7 @@ import org.codevscovid19.threedprintingservice.repositories.ProducerRepository;
 import org.codevscovid19.threedprintingservice.repositories.StockRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.ResponseEntity;
@@ -46,8 +47,9 @@ public class ProducerController {
     }
 
     @GetMapping("/{producerId}/stocks")
-    public ResponseEntity<List<Stock>> getStocksOfProducer(@PathVariable UUID producerId) throws ProducerNotFoundException {
+    public ResponseEntity<List<Stock>> getStocksOfProducer(@PathVariable UUID producerId,
+                                                           @PageableDefault(20) @SortDefault(value = "creationTime", direction = Sort.Direction.ASC) Pageable pageable) throws ProducerNotFoundException {
         Producer producer = this.producerRepository.findById(producerId).orElseThrow(ProducerNotFoundException::new);
-        return ResponseEntity.ok(this.stockRepository.findByProducer(producer));
+        return ResponseEntity.ok(this.stockRepository.findByProducer(producer, pageable));
     }
 }
