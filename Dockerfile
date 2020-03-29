@@ -18,6 +18,7 @@ ENV SPRING_DATASOURCE_USERNAME "root"
 ENV SPRING_DATASOURCE_PASSWORD "password"
 ENV SPRING_DATASOURCE_DIALECT "org.hibernate.spatial.dialect.postgis.PostgisDialect"
 ENV FIREBASE_KEY_LOCATION "firebase"
+ENV CORS_ORIGINS "localhost:8080"
 
 
 VOLUME /tmp
@@ -28,5 +29,6 @@ COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
 
 EXPOSE 8080
 ENTRYPOINT ["java", "-Dorg.codevscovid19.threedprintingservice.security.firebase.key.location=${FIREBASE_KEY_LOCATION}",\
+            "-Dorg.codevscovid19.threedprintingservice.config.cors.origins=${CORS_ORIGINS}",\
             "-Dspring.jpa.database-platform=${SPRING_DATASOURCE_DIALECT}",\
             "-cp","app:app/lib/*","org.codevscovid19.threedprintingservice.Application"]

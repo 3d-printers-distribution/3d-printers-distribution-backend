@@ -7,6 +7,7 @@ services:
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: password
       FIREBASE_KEY_LOCATION: firebase-key
+      CORS_ORIGINS: *
     depends_on:
       - database
     ports:
