@@ -1,0 +1,9 @@
+org.codevscovid19.threedprintingservice.security.firebase.key.location: ./firebase-key.json
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+
+  jpa.database-platform: org.hibernate.spatial.dialect.postgis.PostgisDialect
