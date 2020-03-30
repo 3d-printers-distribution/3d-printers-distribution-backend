@@ -1,16 +1,16 @@
 package org.codevscovid19.threedprintingservice.controller;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.codevscovid19.threedprintingservice.exception.AllocationNotFoundException;
-import org.codevscovid19.threedprintingservice.exception.DemandNotFoundException;
-import org.codevscovid19.threedprintingservice.exception.OverprovisioningException;
-import org.codevscovid19.threedprintingservice.exception.StockNotFoundException;
+import org.codevscovid19.threedprintingservice.exception.*;
 import org.codevscovid19.threedprintingservice.model.Allocation;
 import org.codevscovid19.threedprintingservice.model.Demand;
+import org.codevscovid19.threedprintingservice.model.Distributor;
 import org.codevscovid19.threedprintingservice.model.Stock;
 import org.codevscovid19.threedprintingservice.repositories.AllocationRepository;
 import org.codevscovid19.threedprintingservice.repositories.DemandRepository;
+import org.codevscovid19.threedprintingservice.repositories.DistributorRepository;
 import org.codevscovid19.threedprintingservice.repositories.StockRepository;
+import org.codevscovid19.threedprintingservice.security.FirebaseTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -27,12 +27,16 @@ public class AllocationController {
     private AllocationRepository allocationRepository;
     private DemandRepository demandRepository;
     private StockRepository stockRepository;
+    private DistributorRepository distributorRepository;
+    private FirebaseTokenProvider firebaseTokenProvider;
 
     @Autowired
-    public AllocationController(AllocationRepository allocationRepository, DemandRepository demandRepository, StockRepository stockRepository) {
+    public AllocationController(AllocationRepository allocationRepository, DemandRepository demandRepository, StockRepository stockRepository, DistributorRepository distributorRepository, FirebaseTokenProvider firebaseTokenProvider) {
         this.allocationRepository = allocationRepository;
         this.demandRepository = demandRepository;
         this.stockRepository = stockRepository;
+        this.distributorRepository = distributorRepository;
+        this.firebaseTokenProvider = firebaseTokenProvider;
     }
 
     @GetMapping
@@ -50,10 +54,11 @@ public class AllocationController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<Allocation> createAllocation(@RequestBody CreateAllocationRequest createAllocationRequest) throws DemandNotFoundException, StockNotFoundException, OverprovisioningException {
+    public ResponseEntity<Allocation> createAllocation(@RequestBody CreateAllocationRequest createAllocationRequest) throws DemandNotFoundException, StockNotFoundException, OverprovisioningException, DistributorNotFoundException {
         Demand demand = this.demandRepository.findById(createAllocationRequest.demandId).orElseThrow(DemandNotFoundException::new);
         Stock stock = this.stockRepository.findById(createAllocationRequest.stockId).orElseThrow(StockNotFoundException::new);
-        Allocation allocation = new Allocation(stock, demand, createAllocationRequest.amount);
+        Distributor distributor = this.distributorRepository.findByFirebaseId(this.firebaseTokenProvider.getSessionPrincipal().getUid()).orElseThrow(DistributorNotFoundException::new);
+        Allocation allocation = new Allocation(stock, demand, createAllocationRequest.amount, distributor);
         return ResponseEntity.ok(this.allocationRepository.save(allocation));
     }
 

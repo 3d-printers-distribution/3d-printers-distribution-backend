@@ -36,7 +36,7 @@ public class DemandController {
     @PostMapping
     public void createDemand(@RequestBody CreateAmountRequest createAmountRequest) throws ProductNotFoundException, ConsumerNotFoundException {
         Product product = this.productRepository.findById(createAmountRequest.getProductId()).orElseThrow(ProductNotFoundException::new);
-        Consumer consumer = this.consumerRepository.findByFirebaseId(firebaseTokenProvider.getSessionPrincipal().getUid()).orElseThrow(ConsumerNotFoundException::new);
+        Consumer consumer = this.consumerRepository.findByFirebaseId(this.firebaseTokenProvider.getSessionPrincipal().getUid()).orElseThrow(ConsumerNotFoundException::new);
         Demand demand = new Demand(product, createAmountRequest.getAmount(), consumer);
         this.demandRepository.save(demand);
     }

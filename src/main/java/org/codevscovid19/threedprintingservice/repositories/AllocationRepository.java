@@ -1,6 +1,7 @@
 package org.codevscovid19.threedprintingservice.repositories;
 
 import org.codevscovid19.threedprintingservice.model.Allocation;
+import org.codevscovid19.threedprintingservice.model.Distributor;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -16,5 +17,5 @@ public interface AllocationRepository extends IdentifiableRepository<Allocation>
 
     List<Allocation> findAllByDemand_IdAndStock_Id(UUID demandId, UUID stockId, Pageable pageable);
 
-
+    List<Allocation> findByDistributor(Distributor distributor, Pageable pageable);
 }
