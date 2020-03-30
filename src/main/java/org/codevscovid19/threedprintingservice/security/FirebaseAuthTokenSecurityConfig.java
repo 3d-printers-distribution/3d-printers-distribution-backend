@@ -23,6 +23,8 @@ public class FirebaseAuthTokenSecurityConfig extends WebSecurityConfigurerAdapte
         final ExceptionTranslationFilter invalidAuthFilter = new ExceptionTranslationFilter(new Http401UnauthorizedEntryPoint());
         invalidAuthFilter.setAccessDeniedHandler(new Http401UnauthorizedAccessDeniedHandler());
         httpSecurity
+                .cors()
+                .and()
                 .antMatcher("/**")
                 .csrf()
                 .disable()
