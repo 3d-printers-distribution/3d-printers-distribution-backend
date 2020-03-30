@@ -18,7 +18,7 @@ ENV SPRING_DATASOURCE_USERNAME "root"
 ENV SPRING_DATASOURCE_PASSWORD "password"
 ENV SPRING_DATASOURCE_DIALECT "org.hibernate.spatial.dialect.postgis.PostgisDialect"
 ENV FIREBASE_KEY_LOCATION "firebase"
-ENV CORS_ORIGINS "localhost:8080"
+ENV CORS_ORIGINS "http://localhost:8080"
 
 
 VOLUME /tmp
