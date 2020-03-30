@@ -71,7 +71,7 @@ jobs:
         run: |
           curl -o kustomize --location https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
           chmod u+x ./kustomize
-      # Deploy the Docker image to the GKE cluster
+      # Deploy the Docker image to the GKE cluster using kubectl
       - name: Deploy
         run: |
           gcloud container clusters get-credentials $GKE_CLUSTER \
