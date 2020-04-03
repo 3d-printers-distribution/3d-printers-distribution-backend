@@ -2,8 +2,7 @@ package org.codevscovid19.threedprintingservice.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.Point;
+import org.locationtech.jts.geom.Point;
 
 import javax.persistence.*;
 import java.util.LinkedList;
@@ -18,7 +17,7 @@ public class Producer extends User {
 
     @Column
     @JsonProperty
-    private Geometry location;
+    private Point location;
 
     public Producer() { // Hibernate constructor
     }

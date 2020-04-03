@@ -1,14 +1,14 @@
 package org.codevscovid19.threedprintingservice.controller;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.GeometryFactory;
 import org.codevscovid19.threedprintingservice.controller.request.model.GeoLocation;
 import org.codevscovid19.threedprintingservice.model.*;
 import org.codevscovid19.threedprintingservice.repositories.ConsumerRepository;
 import org.codevscovid19.threedprintingservice.repositories.DistributorRepository;
 import org.codevscovid19.threedprintingservice.repositories.ProducerRepository;
 import org.codevscovid19.threedprintingservice.security.FirebaseTokenProvider;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
